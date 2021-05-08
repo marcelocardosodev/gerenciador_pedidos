@@ -1,0 +1,63 @@
+<h1 class="mt-4">Colaboradores</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active">{{colaborador.id ? 'Edição' : 'Cadastro'}}</li>
+</ol>
+<div class="container">
+    <form #colaboradorForm="ngForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-success" role="alert" *ngIf="success">
+                    Colaborador salvo/atualizado com sucesso!
+                </div>
+                <div class="alert alert-danger" role="alert" *ngFor="let erro of errors">
+                    {{erro}}
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="colaborador.id">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>ID:</label>
+                    <input type="text" class="form-control" name="id" 
+                     [ngModel]="colaborador.id" disabled="true"/>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Data Cadastro:</label>
+                    <input type="text" class="form-control" name="dataCadastro" 
+                    [ngModel]="colaborador.dataCadastro" disabled = "true"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Matricula*:</label>
+                    <input type="number" class="form-control" [(ngModel)]="colaborador.matricula" name="matricula"/>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Nome*:</label>
+                    <input type="text" class="form-control"  [(ngModel)]="colaborador.nome" name="nome" 
+                            style="text-transform: uppercase;"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <<div class="col-md-3">
+                <button type="submit" class="btn btn-success" *ngIf="!colaborador.id">
+                    <i class="fa fa-save"></i>Salvar
+                </button>
+                <button type="submit" class="btn btn-primary" *ngIf="colaborador.id">
+                    <i class="fa fa-sync-alt"></i>Atualizar
+                </button>
+  
+                <button type="button" class="btn btn-danger ml-1" (click)="voltarParaListagem()">
+                  <i class="fa fa-arrow-alt-circle-left"></i>Voltar
+              </button>
+             </div>
+         </div>
+    </form>
+</div>

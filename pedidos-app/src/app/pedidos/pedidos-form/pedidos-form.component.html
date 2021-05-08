@@ -1,0 +1,186 @@
+<h1 class="mt-4">Pedidos</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active"></li>
+</ol>
+<div class="container">
+    <form #form="ngForm" (submit)="onSumit()">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-success" role="alert" *ngIf="success">
+                    Pedido salvo com sucesso!
+                    
+                </div>
+                <div class="alert alert-danger" role="alert" *ngFor="let erro of errors">
+                    {{erro}}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+        </div>
+        
+        <div class="row" >
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Colaborador:</label>
+                    <select class="form-control" 
+                        [ngModelOptions]="{standalone: true}"
+                        [(ngModel)]="pedido.colaborador">
+                        <option value="">Selecione ...</option>
+                        <option *ngFor="let colaborador of colaboradores" [ngValue]="colaborador">
+                            {{colaborador.nome}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Imposto (%):</label>
+                    <input type="number" id="inputImposto" 
+                    class="form-control" [(ngModel)]="pedido.imposto" name="imposto"/>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="row" *ngIf="false">
+            <div class="col-md-6">
+                <div class="form-group" >
+                    <label>Valor Pedido:</label>
+                    <input type="text" id="inputValorPedido"
+                    class="form-control" [(ngModel)]="pedido.valorPedido" name="valorPedido"/>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Lucro:</label>
+                    <input type="text" id="inputLucro"
+                    class="form-control" [(ngModel)]="pedido.lucro" name="lucro"/>
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="false">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Data pedido:</label>
+                    <input type="text" id="inputDataPedido" 
+                    class="form-control" [(ngModel)]="pedido.dataPedido" name="dataPedido"/>
+                </div>
+            </div>
+            
+        </div>
+        
+            <div class="card">
+                <div class="card-header">
+                Itens do Pedido
+                </div>
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                            <form [formGroup] ="itemForm" style="font-size: 1rem; font-weight: 400;">
+                                <div class="row" >
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Servico:</label>
+                                            <select class="form-control" 
+                                                    formControlName="servicoId"
+                                                    name="servicoId">
+                                                <option value="">Selecione ...</option>
+                                                <option *ngFor="let servico of servicos" value="{{servico.id}}">
+                                                    {{servico.nome}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Quantidade hora :</label>
+                                            <input type="number" id="inputValorHora"
+                                            class="form-control" formControlName="quantidadeHora" name="valorHora"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Valor Venda(R$/h) :</label>
+                                            <input type="number" id="inputValorHora"
+                                            class="form-control" formControlName="horaVenda" name="horaVenda"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-row mt 4">
+                                        <div class="col-md-6">
+                                            <button type="button" class="btn btn-primary"(click)="addItem()"><i class="fa fa-plus"></i></button>&nbsp;
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button type="button" class="btn btn-secondary"(click)="reset()"><i class="fa fa-eraser"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        <br><br>
+                            <div class="row">
+                                <table class="table">
+                                    <thead style="font-size: 1rem; font-weight: 400;">
+                                    <tr>
+                                        <th>Serviço</th>
+                                        <th>Qtd hora</th>
+                                        <th>Valor Venda</th>
+                                        <th>Ação</th>
+                                        
+                                    </tr>
+                                    </thead>
+                                    <tbody style="font-size: 1rem; font-weight: 400;">
+                                    <tr *ngFor="let item of listaItem">
+                                        <td><span>{{item.servico.nome}}</span></td>
+                                        <td><span>{{item.quantidadeHora}}</span></td>
+                                        <td><span>{{item.horaVenda}}</span></td> 
+                                        <td><button type="button" class="btn btn-danger"(click)="removeItem(item)"><i class="fas fa-trash"></i></button></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        
+                                <footer class="blockquote-footer"><cite title="Source Title"></cite></footer>
+                        </blockquote>
+                </div>
+            
+            </div>
+            
+            <br><br>
+        <div class="row">
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-success" 
+                data-toggle="modal" data-target="#modalInformacao"
+                *ngIf="!pedido.idpedido">
+                    <i class="fa fa-save"></i>Salvar
+                </button>
+                <button type="submit" class="btn btn-primary" *ngIf="pedido.idpedido" >
+                    <i class="fa fa-sync-alt"></i>Atualizar
+                </button>
+  
+                <button type="button" class="btn btn-danger ml-1" 
+                routerLink="/pedidos-listagem">
+                  <i class="fa fa-arrow-alt-circle-left"></i>Voltar
+              </button>
+             </div>
+         </div>
+    </form>
+    
+    <div id="modalInformacao" class="modal fade" role="dialog">
+        <div class="modal-dialog"  >
+            <div class="modal-content">
+                <div class="modal-header" *ngIf="pedidoSalvo">
+                    <h4>Informações</h4>
+                </div>
+                <div class="modal-body" *ngIf="pedidoSalvo">
+                   <h4>Valor do pedido: R$: {{pedidoSalvo.valorPedido}} </h4> 
+                   <h4>Lucro: {{pedidoSalvo.lucro}} % </h4>
+                </div>
+                <div class="modal-footer" *ngIf="pedidoSalvo">
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-success" data-dismiss="modal">Fechar</button>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

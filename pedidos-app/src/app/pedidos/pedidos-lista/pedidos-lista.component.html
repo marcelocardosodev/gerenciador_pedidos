@@ -1,0 +1,66 @@
+<h1 class="mt-4">Pedidos</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active">Consulta</li>
+</ol>
+<div class="container">
+    <form #consultaForm="ngForm" (submit)="consultar()">
+        <div class="row">
+            <div class="col-md-6">
+                <label for="inputNomePedido">Colaborador:</label>
+                <input type="text" [(ngModel)]="nomeColaborador" 
+                class="form-control"name="nomeColaborador" id="" style="text-transform: uppercase;">
+            </div>
+            <div class="col-md-6">
+                <label for="inputMes">Mês:</label>
+                <select [(ngModel)]="mes" name="mes" class="form-control" >
+                    <option Value=""> Selecione...</option>
+                    <option *ngFor="let mes of meses" [value]="mes" > {{mes}}</option>
+                </select>
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-search"></i>Consultar
+                </button>
+                <button type="button" class="btn btn-warning ml-1"
+                    routerLink="/pedidos-form">
+                    <i class="fa fa-plus"></i>Novo
+                </button>
+            </div>
+        </div>
+    </form>
+    <br/>
+    <div class="row">
+        <div class="row">
+            <div class="alert alert-warning" role="alert" *ngIf="message">
+                {{message}}
+            </div>
+        </div>
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id Pedido</th>
+                        <th>Colaborador</th>
+                        <th>Imposto</th>
+                        <th>Valor Pedido</th>
+                        <th>Lucro</th>
+                        <th>Data Pedido</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let pedido of lista">
+                        <td>{{pedido.id}}</td>
+                        <td>{{pedido.colaborador.nome}}</td>
+                        <td>{{pedido.imposto}}</td>
+                        <td>{{pedido.valorPedido}}</td>
+                        <td>{{pedido.lucro}}%</td>
+                        <td>{{pedido.dataPedido}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
